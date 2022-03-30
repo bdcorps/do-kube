@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saasbase-be-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: saasbase-be
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: saasbase-be
+    spec:
+      containers:
+        - name: backend
+          image: docker.io/sssaini/saasbase-be:0.2
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: be-service
+spec:
+  selector:
+    app.kubernetes.io/name: saasbase-be
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7001
